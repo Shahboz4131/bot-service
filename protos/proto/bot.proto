@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package bot;
+
+service BotService {
+    rpc GetMessage(Message) returns (EmptyRes);
+}
+
+message Message {   
+    string priority = 1;
+    string  text = 2;
+}
+
+message EmptyRes {}
