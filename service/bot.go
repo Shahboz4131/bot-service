@@ -8,7 +8,6 @@ import (
 	pb "github.com/Shahboz4131/bot-service/genproto"
 	l "github.com/Shahboz4131/bot-service/pkg/logger"
 
-
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
@@ -51,34 +50,41 @@ func SendMessage() {
 
 	time.Sleep(5000 * time.Millisecond)
 
-	var a = true
+	for {
 
-	for a {
-		if len(high) == 0 {
-			break
+		for i := range high {
+			SendBot(high[i])
+			if len(high) == 1 {
+				break
+			}
+			high = Remove(high, i)
 		}
-		SendBot(high[0])
 
-		high = high[1:]
+		for i := range medium {
+			SendBot(medium[i])
+			if len(medium) == 1 {
+				break
+			}
+			medium = Remove(medium, i)
+
+		}
+
+		for i := range low {
+			SendBot(low[i])
+			if len(low) == 1 {
+				break
+			}
+			low = Remove(low, i)
+
+		}
+
 	}
 
-	for a {
-		if len(medium) == 0 {
-			break
-		}
-		SendBot(medium[0])
+}
 
-		medium = medium[1:]
-	}
-
-	for a {
-		if len(low) == 0 {
-			break
-		}
-		SendBot(low[0])
-
-		low = low[1:]
-	}
+func Remove(s []string, i int) []string {
+	s[i] = s[len(s)-1]
+	return s[:len(s)-1]
 }
 
 func SendBot(message string) {
